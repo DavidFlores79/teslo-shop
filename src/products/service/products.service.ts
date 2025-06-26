@@ -46,6 +46,7 @@ export class ProductsService {
   }
 
   async update(id: string, updateProductDto: UpdateProductDto) {
+    
     const product = await this.productRepository.preload({
       id, // Preload the product with the given ID
       ...updateProductDto, // Update the product with the new data
