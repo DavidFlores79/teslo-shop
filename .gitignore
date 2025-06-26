@@ -54,3 +54,10 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Hide folder postgres and all its folders and files
+# This is useful if you want to keep the folder structure but not show its contents
+# Note: This will not prevent the folder from being created or used, just hide it in
+# the file explorer of your IDE or editor.
+# If you want to completely ignore the folder, use the line below instead.
+postgres/
