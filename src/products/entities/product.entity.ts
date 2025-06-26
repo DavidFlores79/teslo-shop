@@ -1,6 +1,7 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { ProductImage } from ".";
 
-@Entity()
+@Entity('products')
 export class Product {
     @PrimaryGeneratedColumn('uuid')
     id: string;
@@ -20,14 +21,18 @@ export class Product {
     @Column('int', { default: 0 })
     stock: number;
 
+    @OneToMany(() => ProductImage, (productImage) => productImage.product, {
+        cascade: true,
+        eager: true, // Automatically load images when loading the product
+        onDelete: 'CASCADE', // If the product is deleted, delete its images
+    })
+    images?: ProductImage[];
+
     @Column('text', { array: true, default: [] })
     sizes: string[];
 
     @Column('text', { default: 'unisex' })
     gender: string;
-
-    @Column('text', { array: true, default: [] })
-    images: string[];
 
     @Column('text', { array: true, default: [] })
     tags: string[];
@@ -53,8 +58,6 @@ export class Product {
 
     @BeforeUpdate()
     checkSlugOnUpdate() {
-        console.log(this.title);
-        
         this.slug = this.title.toLowerCase()
             .replaceAll(' ', '_')
             //remover acentos y caracteres especiales
